@@ -1,0 +1,26 @@
+// App Invoice
+// ========================================================================
+
+@import '../../base/pages/app-invoice.scss';
+.c-pointer{
+  cursor: pointer;
+}
+.invoice-list-dataTable {
+  header {
+    padding-left: 1.5rem;
+    display: none;
+  }
+  .dGqwdB{
+    display: none;
+  }
+}
+
+@media (max-width: 482px) {
+  .invoice-list-dataTable {
+    header .actions-right {
+      select {
+        margin-top: 1rem;
+      }
+    }
+  }
+}
