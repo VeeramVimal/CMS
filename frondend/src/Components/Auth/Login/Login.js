@@ -8,9 +8,8 @@ import { useHistory } from "react-router-dom";
 import DashbourdIcon from "../../dashbourdIcon";
 import { useDispatch, useSelector } from 'react-redux';
 import { authLogin, getAllCustomer, getAllAdmin } from '../action';
-import axios from "axios";
 import BackImage from '../../../Asserts/images/backGround/pagedownload-560x420.png';
-import BackLog from '../../../Asserts/images/backGround/additional_modules_10.svg';
+// import BackLog from '../../../Asserts/images/backGround/additional_modules_10.svg';
 import { API_URL } from "../../../@configs/APIConfig";
 function Login() {
   const dispatch = useDispatch();
@@ -55,8 +54,8 @@ useEffect(() => {
     let isValid = true;
     {
       if (target.name == 'Email') {
-        let emailAdminErr = state.allAdmin?.filter((el) => (el.Email === target.value))
-        let emailCustomerErr = state.allData?.filter((el) => (el.Email === target.value));
+        let emailAdminErr = state.allAdmin?.filter((el) => (el.Email == target.value))
+        let emailCustomerErr = state.allData?.filter((el) => (el.Email == target.value));
         var emailErr;
         if (emailAdminErr?.length) {
           emailErr = emailAdminErr 
