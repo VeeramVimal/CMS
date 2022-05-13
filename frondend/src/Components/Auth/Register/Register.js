@@ -8,7 +8,7 @@ import { API_URL, API_URL_BASE, IMAGE_URL_BASE } from "../../../@configs/APIConf
 import { Button } from 'react-bootstrap';
 import { Label } from "reactstrap";
 import { useDropzone } from "react-dropzone";
-import moment from 'moment';
+import moment, { defaultFormat } from 'moment';
 import FontAwesome from "react-fontawesome";
 import DatePicker from "react-datepicker";
 // import { toast } from 'react-toastify';
@@ -29,17 +29,20 @@ import DummyProfile from "../../../Asserts/images/profile/pic1.png";
 //** other components import */
 import DashbourdIcon from "../../dashbourdIcon";
 import Banner from "../../Banner";
+import Header from "../../Navigates/Header/Header";
+import Footer from "../../Navigates/Fooder/Footer";
 
 function Register() {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams()
   const state = useSelector((state) => state.Authorized);
-  const singleCustomer = useSelector((state) => state.Authorized.singleCustomer)
+  const singleCustomer = useSelector((state) => state.Authorized.singleCustomer);
+  const defaultValue = state.defaultValue;
   //** edit state value */
   const [editCustomer, setEditCustomer] = useState([]);
   const [buttonState, setButtonState] = useState(true);
-  const [isEditButton, setIsEditButton] = useState(true);
+  const [isEditButton, setIsEditButton] = useState(false);
   const [num, setNum] = useState(null)
   const [disabled, setDisabled] = useState(false)
 
@@ -55,7 +58,6 @@ function Register() {
   //** image update */
   // const [image, setImage] = useState({ preview: "", raw: "" });
   // const [imageRaw, setImageRaw] = useState([]);
-  const [checked, setChecked] = useState(false);
 
   const [data, setData] = useState({
     FirstName: "",
@@ -69,6 +71,19 @@ function Register() {
     PasswordConfirm: ""
   });
   console.log("avatar ==image-==", data);
+
+  const [initialValue, setInitialValue] = useState({
+    FirstName: false,
+    LastName: false,
+    DOB: false,
+    Email: false,
+    avatar: false,
+    Gender: false,
+    Mobile_number: false,
+    Password: false,
+    PasswordConfirm: false
+  });
+
   const { getRootProps, getInputProps } = useDropzone({
     accept: "application/png,.jpg,.jpeg,.png",
     onDrop: (acceptedFile) => {
@@ -134,7 +149,7 @@ function Register() {
       var imageValue = editCustomer?.avatar;
       var imgPath = imageValue?.slice(13, 47)
       const imgBase = `${IMAGE_URL_BASE}/${imgPath}`
-      console.log(imgPath, "===imgBase==", imgBase );
+      console.log(imgPath, "===imgBase==", imgBase);
       const editValue = {
         FirstName: editCustomer?.FirstName,
         LastName: editCustomer?.LastName,
@@ -150,6 +165,13 @@ function Register() {
       setData(editValue)
     }
   }, [editCustomer])
+
+  //** checkbox functionality */
+  const [checked, setChecked] = useState(false);
+
+  const handleClick = () => {
+    setChecked(!checked)
+  };
 
   const InputChange = (event) => {
     switch (event.target.name) {
@@ -183,69 +205,75 @@ function Register() {
   const validationCheck = (value) => {
     let isValid = true;
     if (data.FirstName == "" || data.FirstName == undefined) {
-      setFirstNameErr("First Name must be between 1 and 32 characters!")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, FirstName: "First Name must be between 1 and 32 characters!"}))
     } else {
-      setFirstNameErr("")
+      setInitialValue((preProps) => ({ ...preProps, FirstName: ""}))
     }
 
     if (data.LastName == "" || data.LastName === undefined) {
-      setLastNameErr("Last Name must be between 1 and 32 characters!")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, LastName: "Last Name must be between 1 and 32 characters!"}))
     } else {
-      setLastNameErr("")
+      setInitialValue((preProps) => ({ ...preProps, LastName: ""}))
+
     }
 
     if (data.DOB == "" || data.DOB === undefined) {
-      setDobErr("DOB field is required")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, DOB: "DOB field is required"}))
     } else {
-      setDobErr("")
+      setInitialValue((preProps) => ({ ...preProps, DOB: ""}))
+
     }
 
     let emailReg = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/
     if (data.Email == "" || data.Email === undefined) {
-      setEmailError("Email field is required")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Email: "Email field is required"}))
     } else if (!emailReg.test(data.Email)) {
-      setEmailError("Email Address does not appear to be valid")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Email: "Email Address does not appear to be valid"}))
     } else {
-      setEmailError("")
+      setInitialValue((preProps) => ({ ...preProps, Email: ""}))
     }
 
     let phoneReg = /^[6-9]\d{9}$/
     if (data.Mobile_number == "" || data.Mobile_number === undefined) {
-      setPhoneNumErr("Mobile_number field is required")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Mobile_number: "Mobile_number field is required"}))
     } else if (!phoneReg.test(data.Mobile_number)) {
-      setPhoneNumErr("Phone Number must be between 10 characters!")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Mobile_number: "Phone Number must be between 10 characters!"}))
     } else {
-      setPhoneNumErr("")
+      setInitialValue((preProps) => ({ ...preProps, Mobile_number: ""}))
     }
 
 
     let passwordRegex = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W).{6,18}/g
     //  alert(data.Password)
     if (data.Password == "" || data.Password === undefined) {
-      setPasswordError("Password field is required")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Password: "Password field is required"}))
+
     } else if (!passwordRegex.test(data.Password)) {
-      setPasswordError(" Password should contain atleast one uppercase, atleast one lowercase, atleast one number, atleast one special character and minimum 6 and maximum 18")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, Password: "Password should contain atleast one uppercase, atleast one lowercase, atleast one number, atleast one special character and minimum 6 and maximum 18"}))
+
     } else {
-      setPasswordError("")
+      setInitialValue((preProps) => ({ ...preProps, Password: ""}))
     }
 
     if (data.PasswordConfirm == "" || data.PasswordConfirm === undefined) {
-      setPasswordConfirmError("Password field is required")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, PasswordConfirm: "Password field is required"}))
+
     } else if (data.Password !== data.PasswordConfirm) {
-      setPasswordConfirmError(" Password should not be matched")
       isValid = false
+      setInitialValue((preProps) => ({ ...preProps, PasswordConfirm: "Password should not be matched"}))
+
     } else {
-      setPasswordConfirmError("")
+      setInitialValue((preProps) => ({ ...preProps, PasswordConfirm: ""}))
     }
 
     return isValid;
@@ -268,18 +296,15 @@ function Register() {
   //   }
   // };
 
-  const handleClick = () => {
-    setChecked(!checked)
-  };
 
   //** Gender radio btn functionality */ 
   const handleChange = (e) => {
-    setData({ ...data, Gender: e.target.value});
+    setData({ ...data, Gender: e.target.value });
   };
 
   //** redirect to click */
   const redirected = () => {
-    return history.push('/')
+    return history.push('/login')
   }
   const editRedirected = () => {
     return history.push('/home')
@@ -289,7 +314,7 @@ function Register() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const addFormData = new FormData();
-    addFormData.append('admin_id', dashbourt.map(el => el._id)[0])
+    addFormData.append('admin_id', dashbourt.length ? dashbourt.map(el => el._id)[0] : "");
     addFormData.append("FirstName", data.FirstName);
     addFormData.append("LastName", data.LastName);
     addFormData.append("DOB", data.DOB);
@@ -313,13 +338,10 @@ function Register() {
       alert("go to read our terms and condiions")
     } else {
       var validstatus = validationCheck();
-      console.log("validstatus===", validstatus);
       if (!num && validstatus) {
-        console.log("addFormData===", addFormData);
         dispatch(register_create(`${API_URL}/customer/addStaff`, addFormData, redirected))
       }
       else if (num && validstatus) {
-        console.log("editFormData==", editFormData);
         dispatch(updatedCustomer(`${API_URL}/customer/updateStaff/${id}`, editFormData, editRedirected))
       }
     }
@@ -329,6 +351,7 @@ function Register() {
 
   return (
     <section className="register_page">
+      {/* <Header /> */}
       <Banner />
       <DashbourdIcon />
       <div className='container'>
@@ -350,11 +373,13 @@ function Register() {
                       type="text"
                       placeholder="Enter your FirstName"
                       name="FirstName"
-                      value={data.FirstName}
-                      onChange={InputChange}
+                      value={!data.FirstName ? defaultValue.FirstName : data.FirstName}
+                      initialValue={initialValue.FirstName}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
                     />
                     <div className="error">
-                      {firstNameErr}</div>
+                      {initialValue.FirstName}</div>
                   </div>
                   <div className='form-group'>
                     <label> LastName </label>
@@ -363,11 +388,13 @@ function Register() {
                       type="text"
                       placeholder="Enter your LastName"
                       name="LastName"
-                      value={data.LastName}
-                      onChange={InputChange}
+                      value={!data.LastName ? defaultFormat.LastName : data.LastName}
+                      initialValue={initialValue.LastName}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
                     />
                     <div className="error">
-                      {lastNameErr}</div>
+                      {initialValue.LastName}</div>
                   </div>
 
                   <div className='form-group'>
@@ -377,11 +404,14 @@ function Register() {
                       type="date"
                       placeholder="Date of Birth"
                       name="DOB"
-                      value={data.DOB}
-                      onChange={InputChange}
+                      value={!data.DOB ? defaultValue.DOB : data.DOB}
+                      initialValue={initialValue.DOB}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
+
                     />
-                    <div className="error">
-                      {DobError}</div>
+                      <div className="error">
+                      {initialValue.DOB}</div>
                   </div>
                   <div className='form-group'>
                     <label style={{ marginRight: "1rem" }}> EmailID </label>
@@ -390,11 +420,13 @@ function Register() {
                       type="email"
                       placeholder="Enter your Email"
                       name="Email"
-                      value={data.Email}
-                      onChange={InputChange}
+                      value={!data.Email ? defaultValue.Email : data.Email}
+                      initialValue={initialValue.Email}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
                     />
-                    <div className="error">
-                      {EmailError}</div>
+                      <div className="error">
+                      {initialValue.Email}</div>
                   </div>
 
                   <div className='form-group'>
@@ -406,11 +438,13 @@ function Register() {
                       minLength={10}
                       placeholder="Enter your Phone"
                       name="Mobile_number"
-                      value={data.Mobile_number}
-                      onChange={InputChange}
+                      value={!data.Mobile_number ? defaultValue.Mobile_number : data.Mobile_number}
+                      initialValue={initialValue.Mobile_number}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
                     />
-                    <div className="error">
-                      {phoneNumErr}</div>
+                      <div className="error">
+                      {initialValue.Mobile_number}</div>
                   </div>
                   {/* <div className="form-group">
                       <div className="radio-btn-container">
@@ -420,96 +454,98 @@ function Register() {
                       </div>
                   </div> */}
                   <div className="form-group">
-                      <div className="wrapper">
-                        <input type="radio" name="sex" value="male" onChange={handleChange} id="option-1"/>
-                        <input type="radio" name="sex" value="female" onChange={handleChange} id="option-2" />
-                        <label for="option-1" className="option option-1">
-                          <div className="dot"></div>
-                          <span>Male</span>
-                        </label>
-                        <label for="option-2" className="option option-2">
-                          <div className="dot"></div>
-                          <span>Female</span>
-                        </label>
-                      </div>
-                      <p>You gender is : {data.Gender}</p>
+                    <div className="wrapper">
+                      <input type="radio" name="sex" value="male" onChange={handleChange} id="option-1" />
+                      <input type="radio" name="sex" value="female" onChange={handleChange} id="option-2" />
+                      <label for="option-1" className="option option-1">
+                        <div className="dot"></div>
+                        <span>Male</span>
+                      </label>
+                      <label for="option-2" className="option option-2">
+                        <div className="dot"></div>
+                        <span>Female</span>
+                      </label>
+                    </div>
+                    <p>You gender is : {data.Gender}</p>
                   </div>
-                  
 
-                      <div className="form-group">
-                        <div {...getRootProps({ className: "dropzone" })}>
-                          <Label for="profile">profile pic</Label>
-                          <input className="form-control" type="text" {...getInputProps()} />
-                          <p className="profilepic1 p1-1 pointer">
-                            {data.avatar ? data.avatar?.path ? data.avatar.path : data.avatar?.replace(/^.*[\\\/]/, '') : ''}
-                          </p>
-                        </div>
-                      </div><br />
 
-                      <h6 className="subHead_reg">Your Password</h6>
-                      <div className="shorted_hr" >
-                        <hr className="short" />
-                      </div>
-                      <div className='form-group'>
-                        <label style={{ marginRight: "5px" }}> Password </label>
-                        <input
-                          className="form-control"
-                          type="password"
-                          placeholder="Password"
-                          name="Password"
-                          value={data.Password}
-                          onChange={InputChange}
-                          disabled={disabled}
-                        />
-                        <div className="error">
-                          {PasswordError}</div>
+                  <div className="form-group">
+                    <div {...getRootProps({ className: "dropzone" })}>
+                      <Label for="profile">profile pic</Label>
+                      <input className="form-control" type="text" {...getInputProps()} />
+                      <p className="profilepic1 p1-1 pointer">
+                        {data.avatar ? data.avatar?.path ? data.avatar.path : data.avatar?.replace(/^.*[\\\/]/, '') : ''}
+                      </p>
+                    </div>
+                  </div><br />
 
-                      </div>
-                      <div className='form-group'>
-                        <label style={{ marginRight: "14px" }}>Confirm </label>
-                        <input
-                          className="form-control"
-                          type="password"
-                          placeholder="PasswordConfirm"
-                          name="PasswordConfirm"
-                          value={data.PasswordConfirm}
-                          onChange={InputChange}
-                          disabled={disabled}
-                        />
-                        <div className="error">
-                          {PasswordConfirmError}</div>
-
-                      </div>&nbsp;
-                      <div className='form-group'>
-                        <p className="check_value"> I have read and agree to the <b>Private Policy</b>&nbsp;&nbsp;
-                          <input
-                            // className="form-control"
-                            type="checkbox"
-                            placeholder="Subscribe to Newsletter"
-                            name="Newsletter"
-                            checked={checked}
-                            // value={State.Newsletter}
-                            onClick={handleClick}
-                          /></p>
-                      </div>
-
-                      <div className='form-group'>
-                        <Button block size="lg"
-                          disabled={buttonState || isEditButton}
-                          className="btn btn-success btn-lg float-right"
-                          type='submit' style={{ backgroundColor: "#1e87e4", marginLeft: "10px" }} >
-                          {editCustomer.length == 0 ? "AddCustomer" : "updateCustomer"}</Button>
-                      </div>
-
-                    </form>
+                  <h6 className="subHead_reg">Your Password</h6>
+                  <div className="shorted_hr" >
+                    <hr className="short" />
                   </div>
+                  <div className='form-group'>
+                    <label style={{ marginRight: "5px" }}> Password </label>
+                    <input
+                      className="form-control"
+                      type="password"
+                      placeholder="Password"
+                      name="Password"
+                      value={!data.Password ? defaultValue.Password : data.Password}
+                      initialValue={initialValue.Password}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
+                      disabled={disabled}
+                    />
+                     <div className="error">
+                      {initialValue.Password}</div>
+                  </div>
+                  <div className='form-group'>
+                    <label style={{ marginRight: "14px" }}>Confirm </label>
+                    <input
+                      className="form-control"
+                      type="password"
+                      placeholder="PasswordConfirm"
+                      name="PasswordConfirm"
+                      value={!data.PasswordConfirm ? defaultValue.PasswordConfirm : data.PasswordConfirm}
+                      initialValue={initialValue.PasswordConfirm}
+                      // setInitialValue={setInitialValue}
+                       onChange={InputChange}
+                      disabled={disabled}
+                    />
+                      <div className="error">
+                      {initialValue.PasswordConfirm}</div>
+                  </div>&nbsp;
+                  <div className='form-group'>
+                    <p className="check_value"> I have read and agree to the <b>Private Policy</b>&nbsp;&nbsp;
+                      <input
+                        // className="form-control"
+                        type="checkbox"
+                        placeholder="Subscribe to Newsletter"
+                        name="Newsletter"
+                        checked={checked}
+                        // value={State.Newsletter}
+                        onClick={handleClick}
+                      /></p>
+                  </div>
+
+                  <div className='form-group'>
+                    <Button block size="lg"
+                      disabled={buttonState || isEditButton}
+                      className="btn btn-success btn-lg float-right"
+                      type='submit' style={{ backgroundColor: "#1e87e4", marginLeft: "10px" }} >
+                      {editCustomer.length == 0 ? "AddCustomer" : "updateCustomer"}</Button>
+                  </div>
+
+                </form>
               </div>
-
             </div>
 
-            <div className="col-md-2">
-              <img className="backReg_img" src={BackImage} alt="backImage" />
-              {/* <div className="card card_cr">
+          </div>
+
+          <div className="col-md-2">
+            <img className="backReg_img" src={BackImage} alt="backImage" />
+            {/* <div className="card card_cr">
               <span className="foo_cnt">
                 <div className="card-body foo_cnt">
                   <h2 ><img src={user} alt="user" />My Acount</h2>
@@ -522,10 +558,11 @@ function Register() {
                 </div>
               </span>
             </div> */}
-            </div>
-
           </div>
+
         </div>
+      </div>
+      <Footer />
     </section>
   )
 }

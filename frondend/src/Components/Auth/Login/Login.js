@@ -25,7 +25,7 @@ function Login() {
     Email: "",
     Password: "",
   });
-  console.log("email===", data.Email);
+
   //** customer list show */
   useEffect(() => {
     dispatch(getAllCustomer(`${API_URL}/customer`))
@@ -63,13 +63,13 @@ useEffect(() => {
         } else if (emailCustomerErr?.length) {
           emailErr = emailCustomerErr
         }
-        console.log("emailErr==", emailErr);
+
         var z = []
         for (let i = 0; i < emailErr?.length; i++) {
           z = emailErr[i]
           setpass(emailErr[i]);
         }
-        console.log("zzzzz==", z);
+
         if (z.Email !== target.value) {
           isValid = false;
           // setEmailError('Enter valid Email!', 'Enter mail is not match!')
@@ -94,7 +94,7 @@ useEffect(() => {
     return isValid
 
   };
-console.log("pass===", pass);
+
   const redirected = () => {
     return History.push({
       pathname: "/home",

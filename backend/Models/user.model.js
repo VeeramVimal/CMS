@@ -3,8 +3,9 @@ const { roles } = require("../Config/roles");
 const { USER } = require("../Contants");
 const Schema = Mongoose.Schema;
 
-let UserSchema = new Schema({
-
+module.exports = (sequelize) => {
+const User = sequelize.define(
+    USER, {
     user_name: {
         type: String,
     },
@@ -32,12 +33,15 @@ let UserSchema = new Schema({
         }
     },
     role: {
-        type: Enumerator,
+        type: String,
         values: roles,
         default: 'customer',
     }
 
 }, {
         collection: 'User'
-})
-module.exports = USER = Mongoose.model('User', UserSchema)
+});
+User.sync();
+return User
+}
+//  USER = Mongoose.model('User', UserSchema)

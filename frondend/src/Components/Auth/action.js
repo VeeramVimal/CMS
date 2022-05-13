@@ -2,7 +2,7 @@ import { CREATE_REGISTER, AUTH_LOGIN, ALL_CUSTOMER_DATA, DELETE_CUSTOMER, GET_SI
 import axios from 'axios';
 import swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
-import { API_URL_BASE } from '../../@configs/APIConfig';
+import { API_URL, API_URL_BASE } from '../../@configs/APIConfig';
 
 const MySwal = withReactContent(swal);
 
@@ -129,7 +129,7 @@ export const updatedCustomer = (params, userData, editRedirected) => {
                     data: res.data
                 })
             })
-            .then(() => dispatch(getAllCustomer(`${API_URL_BASE}/customer`)))
+            .then(() => dispatch(getAllCustomer(`${API_URL}/customer`)))
             .catch(err => {
                 if (err.response && err.response.data) {
                     MySwal.fire({
@@ -171,7 +171,7 @@ export const deletedCustomer = (params) => {
                     data: res.data
                 })
             })
-            .then(() => dispatch(getAllCustomer('http://localhost:8000/customer')))
+            .then(() => dispatch(getAllCustomer(`${API_URL}/customer`)))
             .catch(e => {
                 if (e.response && e.response.data) {
                     MySwal.fire({

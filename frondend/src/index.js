@@ -7,12 +7,13 @@ import reportWebVitals from './reportWebVitals';
 // import AddEmployee from './Components/AddEmployee';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-ReactDOM.render( 
-      <App/>
-    ,
-  document.getElementById('root')
-);
+const rootElement = document.getElementById('root');
+ReactDOM.render(<App />, rootElement)
+// ReactDOM.render( 
+//       <App/>
+//     ,
+//   document.getElementById('root')
+// );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

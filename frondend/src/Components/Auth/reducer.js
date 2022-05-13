@@ -8,7 +8,15 @@ const intialState = {
     RegisterPost: [],
     logIn: [],
     defaultValue: {
-
+        FirstName: "",
+        LastName: "",
+        DOB: "",
+        Email: "",
+        avatar: "",
+        Gender: '',
+        Mobile_number: "",
+        Password: "",
+        PasswordConfirm: ""
     }
 }
 

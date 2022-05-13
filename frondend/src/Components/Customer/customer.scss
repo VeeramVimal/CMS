@@ -18,7 +18,7 @@
 
 }
 
-.list_customer>select[name='show'] {
+select[name='show'] {
   margin-left: 10px;
   width: 80px;
   padding: 6px 12px;
@@ -31,10 +31,10 @@
   margin-bottom: 15px;
 }
 
-.list_customer>input[name="Search"] {
+input[name="Search"] {
   /* display: block; */
   margin-left: 1rem;
-  width: 400px;
+  width: 250px;
   padding: 6px 12px;
   font-size: 14px;
   line-height: 1.42857143;
@@ -44,7 +44,11 @@
   border-radius: 4px;
   margin-bottom: 15px;
 }
-
+.contain_back ::placeholder{
+    // color: #cccccc;
+    color: #555;
+    margin: 2rem;
+}
 .back_table {
   //  background-color: rgb(241, 241, 241);
   background: linear-gradient(rgba(138, 133, 133, 0.3), rgba(78, 75, 75, 0.3));
@@ -101,8 +105,20 @@
 .pagination>li:last-child>span {
   border-radius: unset
 }
-
+.closepop {
+  // margin-right: -20px;
+  // margin-top: -11px;
+  float: right;
+  margin: -11px -9px 0px 0px;
+}
+.icon{
+  color: #2e0fb5;
+}
 .log_out {
   float: right;
   margin: -4rem 15px 0px 0px;
 }
+// .head_list {
+// font-family: 'Times New Roman', Times, serif;
+// font-weight: 600;
+// }

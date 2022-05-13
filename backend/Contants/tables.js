@@ -1,6 +1,6 @@
 const ADMIN = 'Admin';
 const CUSTOMER = 'Customer';
-const USER = 'User'
+const USER = 'User';
 
 module.exports = {
     ADMIN,

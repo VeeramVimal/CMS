@@ -5,6 +5,7 @@ import { Link, useHistory, useParams } from "react-router-dom";
 // import "../../Style/Styles.css";
 import './header.scss'
 import "font-awesome/css/font-awesome.css";
+import { Home } from "react-feather";
 
 const Header = () => {
 
@@ -23,7 +24,9 @@ const Header = () => {
                       <a className="nav-link" href="#HOME">HOME</a>
                     </li>
                     <li className="nav-item">
-                      <a className="nav-link" href="#about">ABOUT US</a>
+                      {/* <a className="nav-link" href="#about">ABOUT US</a> */}
+                      {/* <a className="nav-link" href="#HOME"></a> */}
+
                     </li>
                     <li className="nav-item">
                       <a className="nav-link" href="#" >PORTFOLIO</a>

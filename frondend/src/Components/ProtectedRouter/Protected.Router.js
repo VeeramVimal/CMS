@@ -16,7 +16,7 @@ const Protectedrouter =({component,...rest})=>{
                 ):(
                     <Redirect
                     to={{
-                        pathname:'/'
+                        pathname:'/login'
                     }}
                     />
                 )

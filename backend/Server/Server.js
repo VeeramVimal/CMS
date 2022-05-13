@@ -14,8 +14,6 @@ Mongoose
     .catch((err) => console.log(err));
   
     ///router connect
-// const customerRoute =require('../Routes/customer.route');
-// const authRoute = require('../Routes/index');
 const routes = require('../Routes/index')
 const imageRoute = require('../Middleware/middleware')
 
@@ -25,9 +23,6 @@ const imageRoute = require('../Middleware/middleware')
     app.use(Express.static('public'));
 
     const Port = config.PORT
-
-    // app.use('/customer', customerRoute);
-    // app.use('/auth', authRoute);
 
     app.use('/vr', routes);
 
