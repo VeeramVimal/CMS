@@ -46,15 +46,6 @@ function Register() {
   const [num, setNum] = useState(null)
   const [disabled, setDisabled] = useState(false)
 
-  //** validation state */
-  const [firstNameErr, setFirstNameErr] = useState('');
-  const [lastNameErr, setLastNameErr] = useState('');
-  const [phoneNumErr, setPhoneNumErr] = useState("")
-  const [EmailError, setEmailError] = useState('');
-  const [PasswordError, setPasswordError] = useState('');
-  const [PasswordConfirmError, setPasswordConfirmError] = useState('');
-  const [DobError, setDobErr] = useState('');
-
   //** image update */
   // const [image, setImage] = useState({ preview: "", raw: "" });
   // const [imageRaw, setImageRaw] = useState([]);
@@ -72,6 +63,7 @@ function Register() {
   });
   console.log("avatar ==image-==", data);
 
+  //** validation state */
   const [initialValue, setInitialValue] = useState({
     FirstName: false,
     LastName: false,
@@ -216,7 +208,6 @@ function Register() {
       setInitialValue((preProps) => ({ ...preProps, LastName: "Last Name must be between 1 and 32 characters!"}))
     } else {
       setInitialValue((preProps) => ({ ...preProps, LastName: ""}))
-
     }
 
     if (data.DOB == "" || data.DOB === undefined) {
@@ -304,7 +295,13 @@ function Register() {
 
   //** redirect to click */
   const redirected = () => {
-    return history.push('/login')
+    // return history.push('/login')
+
+    if (dashbourt?.length == 0) {
+      return history.push('/home')
+    } else {
+      return history.push('/login')
+    }
   }
   const editRedirected = () => {
     return history.push('/home')
