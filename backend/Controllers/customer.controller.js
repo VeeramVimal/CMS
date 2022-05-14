@@ -35,7 +35,6 @@ const getAllCustomerDetails = catchAsync(async (req, res) => {
 })
 
 const getOneCustomerDetails = catchAsync(async (req, res) => {
-
     try {
         const getOneData = await customerService.getOneCustomer(req.params.id);
         res.send(getOneData);
@@ -48,7 +47,7 @@ const getOneCustomerDetails = catchAsync(async (req, res) => {
 })
 
 const updateCustomerDetails = catchAsync(async (req, res) => {
-
+console.log("file upload===", req);
     try {
         if (req.file) req.body.avatar = req.file.path   
         const packageValue = await customerService.updateCustomer(req.params._id, req.body);

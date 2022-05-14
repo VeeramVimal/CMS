@@ -125,7 +125,7 @@ const CustomerList = () => {
 
                                 <div className="d-flex flex-warp justify-content-start align-items-start">
                                     {dashbourt.map((ele) => ele.avatar === null ||
-                                        ele.avatar === "" ?
+                                        ele.avatar === ""?
                                         <img src={DummyProfile} height={40} width={40} className="rounded-circle mt-2 " onClick={() => handleEditData(ele, "edit")} /> :
                                         <img src={`${IMAGE_URL_BASE}/${Profile[0]}`} height={60} width={60} className="rounded-circle mt-2" onClick={() => handleEditData(ele, "edit")} />)}
                                     {dashbourt.map((ele) => (
