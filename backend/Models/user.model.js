@@ -3,9 +3,7 @@ const { roles } = require("../Config/roles");
 const { USER } = require("../Contants");
 const Schema = Mongoose.Schema;
 
-module.exports = (sequelize) => {
-const User = sequelize.define(
-    USER, {
+let userSchema = new Schema({
     user_name: {
         type: String,
     },
@@ -27,9 +25,9 @@ const User = sequelize.define(
         validate(val) {
             if (!val.match(/\d/) || !val.match(/[a-zA-Z]/)) {
                 throw new Error(
-                  "Password must contain at least one letter and one number"
+                    "Password must contain at least one letter and one number"
                 );
-              }
+            }
         }
     },
     role: {
@@ -37,11 +35,8 @@ const User = sequelize.define(
         values: roles,
         default: 'customer',
     }
-
 }, {
-        collection: 'User'
+    collection: 'User'
 });
-User.sync();
-return User
-}
-//  USER = Mongoose.model('User', UserSchema)
+
+module.exports = User = Mongoose.model('User', userSchema)
