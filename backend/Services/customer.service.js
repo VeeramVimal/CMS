@@ -59,7 +59,7 @@ const getOneCustomer = async (Id) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateCustomer = async (customer_id, userBody ) => {
+const updateCustomer = async (customer_id, userBody) => {
     const updateDetails = await getOneCustomer(customer_id)
     if (!updateDetails) {
         throw new ApiError(httpStatus.NOT_FOUND, 'Customer not Found');
